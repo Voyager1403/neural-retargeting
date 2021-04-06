@@ -1,0 +1,33 @@
+DATASET:
+  TEST:
+    SOURCE_NAME: "SignDataset"
+    SOURCE_PATH: "./data/source/sign/test"
+    TARGET_NAME: "YumiDataset"
+    TARGET_PATH: "./data/target/yumi"
+MODEL:
+  NAME: "YumiNet"
+  CHECKPOINT: "./saved/models/yumi/best_model_epoch_0007.pth"
+HYPER:
+  EPOCHS: 100
+  BATCH_SIZE: 16
+  LEARNING_RATE: 0.0001
+LOSS:
+  EE: True
+  VEC: True
+  LIM: True
+  ORI: True
+  COL: True
+  COL_THRESHOLD: 0.15
+  REG: True
+INFERENCE:
+  MOTION:
+    SOURCE: './data/source/sign/test/h5/yumi_intro_YuMi.h5'
+    KEY: '玉米介绍语句３'
+  H5:
+    BOOL: True
+    PATH: './saved/h5'
+OTHERS:
+  SAVE: "./saved/models/yumi"
+  LOG: "./saved/log"
+  SUMMARY: "./saved/runs"
+  LOG_INTERVAL: 100
