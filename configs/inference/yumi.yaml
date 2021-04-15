@@ -1,12 +1,12 @@
 DATASET:
   TEST:
     SOURCE_NAME: "SignDataset"
-    SOURCE_PATH: "./data/source/sign/test"
+    SOURCE_PATH: "./data/source/yumi/test"
     TARGET_NAME: "YumiDataset"
     TARGET_PATH: "./data/target/yumi"
 MODEL:
   NAME: "YumiNet"
-  CHECKPOINT: "./saved/models/yumi/best_model_epoch_0007.pth"
+  CHECKPOINT: "./saved/models/yumi/best_model_epoch_0087.pth"
 HYPER:
   EPOCHS: 100
   BATCH_SIZE: 16
@@ -21,7 +21,7 @@ LOSS:
   REG: True
 INFERENCE:
   MOTION:
-    SOURCE: './data/source/sign/test/h5/yumi_intro_YuMi.h5'
+    SOURCE: '/home/yu/PycharmProjects/MotionTransfer-master-Yu-comment/data/source/yumi/test/h5/yumi_intro_YuMi.h5'
     KEY: '玉米介绍语句３'
   H5:
     BOOL: True
