@@ -342,4 +342,4 @@ class SignDataset(InMemoryDataset):
 
 if __name__ == '__main__':
     yumi_dataset = YumiDataset(root='./data/target/yumi')
-    sign_dataset = SignDataset(root='./data/source/sign/train', pre_transform=transforms.Compose([Normalize()]))
+    sign_dataset = SignDataset(root='./data/source/yumi/train', pre_transform=transforms.Compose([Normalize()]))

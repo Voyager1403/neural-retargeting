@@ -1,12 +1,12 @@
 DATASET:
   TRAIN:
     SOURCE_NAME: "SignDataset"
-    SOURCE_PATH: "./data/source/sign/train"
+    SOURCE_PATH: "./data/source/yumi/train"
     TARGET_NAME: "YumiDataset"
     TARGET_PATH: "./data/target/yumi"
   TEST:
     SOURCE_NAME: "SignDataset"
-    SOURCE_PATH: "./data/source/sign/test"
+    SOURCE_PATH: "./data/source/yumi/test"
     TARGET_NAME: "YumiDataset"
     TARGET_PATH: "./data/target/yumi"
 MODEL:
