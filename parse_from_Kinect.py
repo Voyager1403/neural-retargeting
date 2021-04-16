@@ -64,7 +64,7 @@ class vis(threading.Thread):
 """
 Parse H5 File
 """
-def parse_from_Kinect(pos,quat,filename, selected_key=None):
+def parse_from_Kinect(kinect_pos,kinect_quat,filename, selected_key=None):
     data_list = []
     h5_file = h5py.File(filename, 'r')
     # print(filename, h5_file.keys(), len(h5_file.keys()))
@@ -82,10 +82,6 @@ def parse_from_Kinect(pos,quat,filename, selected_key=None):
         l_hand_angle = map_glove_to_inspire_hand(l_glove_angle)
         r_hand_angle = map_glove_to_inspire_hand(r_glove_angle)
 
-        #read data from kinect
-        # kinect_pos,kinect_quat=pyKinect.get_data()
-        kinect_pos, kinect_quat = pos,quat
-
         # position data         shape(Tx3)
         l_shoulder_pos = torch.tensor(kinect_pos[0])
         r_shoulder_pos = torch.tensor(kinect_pos[1])
@@ -102,11 +98,6 @@ def parse_from_Kinect(pos,quat,filename, selected_key=None):
         r_elbow_pos = ((torch.tensor(kinect_pos[3])-origin).matmul(rot_mat))/1000
         l_wrist_pos = ((torch.tensor(kinect_pos[4])-origin).matmul(rot_mat))/1000
         r_wrist_pos = ((torch.tensor(kinect_pos[5])-origin).matmul(rot_mat))/1000
-
-        # #vis
-        # thread_vis=vis(1,"thread_vis",1,lib)
-        # thread_vis.start()
-        # thread_vis.join()
 
         # quaternion data       shape(Tx4)    动捕录下来的四元数是在世界坐标系下的吗？
         l_shoulder_quat = R.from_quat(kinect_quat[0])

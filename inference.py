@@ -107,7 +107,11 @@ if __name__ == '__main__':
 
     # latent optimization
     for epoch in range(cfg.HYPER.EPOCHS):
-        train_loss = train_epoch(model, ee_criterion, vec_criterion, col_criterion, lim_criterion, ori_criterion, reg_criterion, optimizer, test_loader, test_target, epoch, logger, cfg.OTHERS.LOG_INTERVAL, writer, device, z_all)
+        train_loss = train_epoch(model,
+                                 ee_criterion, vec_criterion, col_criterion, lim_criterion, ori_criterion, reg_criterion,
+                                 optimizer,
+                                 test_loader, test_target,
+                                 epoch, logger, cfg.OTHERS.LOG_INTERVAL, writer, device, z_all)
         # Save model
         if train_loss > best_loss:
             best_cnt += 1

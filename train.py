@@ -3,7 +3,12 @@ from torch_geometric.data import Data, Batch
 from models.loss import calculate_ee_loss, calculate_vec_loss, calculate_lim_loss, calculate_ori_loss
 import time
 
-def train_epoch(model, ee_criterion, vec_criterion, col_criterion, lim_criterion, ori_criterion, reg_criterion, optimizer, dataloader, target_skeleton, epoch, logger, log_interval, writer, device, z_all=None, ang_all=None):
+def train_epoch(model,
+                ee_criterion, vec_criterion, col_criterion, lim_criterion, ori_criterion, reg_criterion,
+                optimizer,
+                dataloader, target_skeleton,
+                epoch, logger, log_interval, writer, device,
+                z_all=None, ang_all=None):
     logger.info("Training Epoch {}".format(epoch+1).center(60, '-'))
     start_time = time.time()
 
@@ -84,6 +89,7 @@ def train_epoch(model, ee_criterion, vec_criterion, col_criterion, lim_criterion
 
             # backward
             loss = ee_loss + vec_loss + col_loss + lim_loss + ori_loss + reg_loss
+            loss = torch.tensor(loss, requires_grad=True)#?
             loss.backward()
 
             # gradient clipping
@@ -115,4 +121,4 @@ def train_epoch(model, ee_criterion, vec_criterion, col_criterion, lim_criterion
     end_time = time.time()
     logger.info("Epoch {:04d} | Training Time {:.2f} s | Avg Training Loss {:.6f} | Avg EE Loss {:.6f} | Avg Vec Loss {:.6f} | Avg Col Loss {:.6f} | Avg Lim Loss {:.6f} | Avg Ori Loss {:.6f} | Avg Reg Loss {:.6f}".format(epoch+1, end_time-start_time, train_loss, ee_loss, vec_loss, col_loss, lim_loss, ori_loss, reg_loss))
 
-    return train_loss
+    return train_loss,target_ang
