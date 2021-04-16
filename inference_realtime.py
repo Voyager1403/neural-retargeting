@@ -4,13 +4,13 @@ import torch_geometric.transforms as transforms
 
 import argparse
 # import os
-
+from torch_geometric.data import Data, Batch
 from models import model as model1
 from models.parallel import DataParallel
 # from models.loss import CollisionLoss, JointLimitLoss
 import dataset
 #from dataset import Degree2Radian, Normalize, parse_bvh_to_frame, parse_bvh_to_motion, parse_bvh_to_hand, parse_h5, parse_h5_temporal
-from dataset import Degree2Radian, Normalize, parse_h5
+from dataset import Normalize, parse_h5
 from parse_from_Kinect import parse_from_Kinect
 from utils.config import cfg
 from utils.util import create_folder
@@ -44,11 +44,11 @@ class inference:
 
 
         # Create model
-        self.model = getattr(model1, cfg.MODEL.NAME)(cfg.MODEL.CHANNELS, cfg.MODEL.DIM).to(inference.device)
+        self.model = getattr(model1, cfg.MODEL.NAME)().to(self.device)
 
         # Run the model parallelly
         print('Let\'s use {} GPUs!'.format(torch.cuda.device_count()))
-        self.model = DataParallel(self.model).to(inference.device)
+        # self.model = DataParallel(self.model).to(inference.device)
 
         # Load checkpoint
         if cfg.MODEL.CHECKPOINT is not None:
@@ -70,13 +70,17 @@ class inference:
             # process of data
             data_list = data
             data_list = [inference.pre_transform(data).to(inference.device) for data in data_list]
-            target = inference.targets[cfg.INFERENCE.TARGET]
-            target_list = []
-            for data in data_list:
-                target_list.append(target)
+            # target = inference.targets[cfg.INFERENCE.TARGET]
+            # target_list = []
+            # for data in data_list:
+            #     target_list.append(target)
+            #
+            # # forward
+            # ang, _, _, _, _, rot, pos = self.model(data_list, target_list)
 
-            # forward
-            ang, _, _, _, _, rot, pos = self.model(data_list, target_list)
+
+            #latent space
+            z = self.model.encode(Batch.from_data_list(data_list).to(self.device)).detach()
 
             # reshape
             ang = ang.view(sum([data.t if hasattr(data, 't') else 1 for data in target_list]), -1).cpu().numpy() # [T, joint_num]
