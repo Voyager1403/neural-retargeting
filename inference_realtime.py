@@ -164,23 +164,23 @@ class inference:
             best_cnt = 0
             start_time = time.time()
 
-            # # latent optimization
-            # for epoch in range(cfg.HYPER.EPOCHS):
-            #     train_loss,ang = train_epoch(self.model, ee_criterion, vec_criterion, col_criterion, lim_criterion,
-            #                              ori_criterion, reg_criterion, optimizer, data_loader, target_list, epoch,
-            #                              logger, cfg.OTHERS.LOG_INTERVAL, writer, self.device, z_all)
-            #     # Save model
-            #     if train_loss > best_loss:
-            #         best_cnt += 1
-            #     else:
-            #         best_cnt = 0
-            #         best_loss = train_loss
-            #         best_z_all = copy.deepcopy(z_all)
-            #     if best_cnt == 5:
-            #         # logger.info("Interation Finished")
-            #         print("Interation Finished")
-            #         break
-            #     print(best_cnt)
+            # latent optimization
+            for epoch in range(cfg.HYPER.EPOCHS):
+                train_loss,ang = train_epoch(self.model, ee_criterion,  vec_criterion, col_criterion, lim_criterion,
+                                         ori_criterion, reg_criterion, optimizer, data_loader, target_list, epoch,
+                                         logger, cfg.OTHERS.LOG_INTERVAL, writer, self.device, z_all)
+                # Save model
+                if train_loss > best_loss:
+                    best_cnt += 1
+                else:
+                    best_cnt = 0
+                    best_loss = train_loss
+                    best_z_all = copy.deepcopy(z_all)
+                if best_cnt == 5:
+                    # logger.info("Interation Finished")
+                    print("Interation Finished")
+                    break
+                print(best_cnt)
 
             # store final results
             self.model.eval()

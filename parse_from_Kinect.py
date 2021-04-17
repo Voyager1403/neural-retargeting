@@ -224,12 +224,12 @@ def parse_from_Kinect(kinect_pos,kinect_quat,filename, selected_key=None):
                     current_idx = parent[current_idx]
                 elbow_dist[node_idx] = dist
             # quaternion
-            q = torch.stack([torch.from_numpy(h5_file[key + '/l_up_quat'][t]),
-                             torch.from_numpy(h5_file[key + '/l_fr_quat'][t]),
-                             torch.from_numpy(h5_file[key + '/l_hd_quat'][t]),
-                             torch.from_numpy(h5_file[key + '/r_up_quat'][t]),
-                             torch.from_numpy(h5_file[key + '/r_fr_quat'][t]),
-                             torch.from_numpy(h5_file[key + '/r_hd_quat'][t])], dim=0).float()
+            q = torch.stack([torch.from_numpy(np.array(kinect_quat[0])),
+                             torch.from_numpy(np.array(kinect_quat[1])),
+                             torch.from_numpy(np.array(kinect_quat[2])),
+                             torch.from_numpy(np.array(kinect_quat[3])),
+                             torch.from_numpy(np.array(kinect_quat[4])),
+                             torch.from_numpy(np.array(kinect_quat[5]))], dim=0).float()
             #parse_h5这个函数在SignDataset类里用到了，作用是从h5格式的source motion中解析出数据，然后按照下面的方式来组织成图。
             data = Data(x=torch.cat([x,pos], dim=-1),#节点特征
                         edge_index=edge_index,#边连接关系
